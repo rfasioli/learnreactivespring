@@ -18,7 +18,7 @@ class ColdAndHotPublisherTest {
     Thread.sleep(2000);
 
     stringFlux.subscribe(s -> System.out.println("Subscriber 2 : " + s)); //emits the value from beginning
-    Thread.sleep(4000);
+    Thread.sleep(6000);
   }
 
   @Test
