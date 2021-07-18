@@ -9,63 +9,63 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class FluxAndMonoFactoryTest {
+class FluxAndMonoFactoryTest {
 
-    final List<String> names = Arrays.asList("adam", "anna", "jack", "jenny");
+  final List<String> names = Arrays.asList("adam", "anna", "jack", "jenny");
 
-    @Test
-    public void fluxUsingIterable() {
-        final var namesFlux = Flux.fromIterable(names);
+  @Test
+  void fluxUsingIterable() {
+    final var namesFlux = Flux.fromIterable(names);
 
-        StepVerifier.create(namesFlux.log())
-                .expectNext("adam", "anna", "jack", "jenny")
-                .verifyComplete();
-    }
+    StepVerifier.create(namesFlux.log())
+        .expectNext("adam", "anna", "jack", "jenny")
+        .verifyComplete();
+  }
 
-    @Test
-    public void fluxUsingArray() {
-        final var names = new String[]{"adam", "anna", "jack", "jenny"};
-        final var namesFlux = Flux.fromArray(names);
+  @Test
+  void fluxUsingArray() {
+    final var names = new String[]{"adam", "anna", "jack", "jenny"};
+    final var namesFlux = Flux.fromArray(names);
 
-        StepVerifier.create(namesFlux.log())
-                .expectNext(names)
-                .verifyComplete();
-    }
+    StepVerifier.create(namesFlux.log())
+        .expectNext(names)
+        .verifyComplete();
+  }
 
-    @Test
-    public void fluxUsingStream() {
-        final var namesFlux = Flux.fromStream(names.stream());
+  @Test
+  void fluxUsingStream() {
+    final var namesFlux = Flux.fromStream(names.stream());
 
-        StepVerifier.create(namesFlux.log())
-                .expectNext("adam", "anna", "jack", "jenny")
-                .verifyComplete();
-    }
+    StepVerifier.create(namesFlux.log())
+        .expectNext("adam", "anna", "jack", "jenny")
+        .verifyComplete();
+  }
 
-    @Test
-    public void monoUsingJustOrEmpty() {
-        final var mono = Mono.justOrEmpty(null);
+  @Test
+  void monoUsingJustOrEmpty() {
+    final var mono = Mono.justOrEmpty(null);
 
-        StepVerifier.create(mono.log())
-                .verifyComplete();
-    }
+    StepVerifier.create(mono.log())
+        .verifyComplete();
+  }
 
-    @Test
-    public void monoUsingSupplier() {
-        Supplier<String> stringSupplier = () -> "adam";
+  @Test
+  void monoUsingSupplier() {
+    Supplier<String> stringSupplier = () -> "adam";
 
-        final var mono = Mono.fromSupplier(stringSupplier);
+    final var mono = Mono.fromSupplier(stringSupplier);
 
-        StepVerifier.create(mono.log())
-                .expectNext(stringSupplier.get())
-                .verifyComplete();
-    }
+    StepVerifier.create(mono.log())
+        .expectNext(stringSupplier.get())
+        .verifyComplete();
+  }
 
-    @Test
-    public void fluxUsingRange() {
-        final var integerFlux = Flux.range(1, 5);
+  @Test
+  void fluxUsingRange() {
+    final var integerFlux = Flux.range(1, 5);
 
-        StepVerifier.create(integerFlux.log())
-                .expectNext(1,2,3,4,5)
-                .verifyComplete();
-    }
+    StepVerifier.create(integerFlux.log())
+        .expectNext(1, 2, 3, 4, 5)
+        .verifyComplete();
+  }
 }

@@ -7,27 +7,27 @@ import reactor.test.StepVerifier;
 import java.util.Arrays;
 import java.util.List;
 
-public class FluxAndMonoFilterTest {
-    final List<String> names = Arrays.asList("adam", "anna", "jack", "jenny");
+class FluxAndMonoFilterTest {
+  final List<String> names = Arrays.asList("adam", "anna", "jack", "jenny");
 
-    @Test
-    public void filterTest() {
-        final var namesFlux = Flux.fromIterable(names)
-                .filter(s -> s.startsWith("a"));
+  @Test
+  void filterTest() {
+    final var namesFlux = Flux.fromIterable(names)
+        .filter(s -> s.startsWith("a"));
 
-        StepVerifier.create(namesFlux.log())
-                .expectNext("adam","anna")
-                .verifyComplete();
-    }
+    StepVerifier.create(namesFlux.log())
+        .expectNext("adam", "anna")
+        .verifyComplete();
+  }
 
-    @Test
-    public void filterTestLength() {
-        final var namesFlux = Flux.fromIterable(names)
-                .filter(s -> s.length() > 4);
+  @Test
+  void filterTestLength() {
+    final var namesFlux = Flux.fromIterable(names)
+        .filter(s -> s.length() > 4);
 
-        StepVerifier.create(namesFlux.log())
-                .expectNext("jenny")
-                .verifyComplete();
-    }
+    StepVerifier.create(namesFlux.log())
+        .expectNext("jenny")
+        .verifyComplete();
+  }
 
 }

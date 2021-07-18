@@ -6,54 +6,59 @@ import reactor.test.StepVerifier;
 
 import java.time.Duration;
 
-public class FluxAndMonoWithTimeTest {
-    @Test
-    void infiniteSequence() throws InterruptedException {
-        final var infiniteFlux = Flux.interval(Duration.ofMillis(100))
-                .log();
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-        infiniteFlux.subscribe((e) -> System.out.println("Value is: " + e)); // NonBlocking, but consume flux until current thread still running...
+class FluxAndMonoWithTimeTest {
+  @Test
+  void infiniteSequence() throws InterruptedException {
+    final var infiniteFlux = Flux.interval(Duration.ofMillis(100))
+        .log();
 
-        Thread.sleep(3000); // Keep application still running for 3 secs
-    }
+    // NonBlocking, but consume flux until current thread still running...
+    infiniteFlux.subscribe((e) -> System.out.println("Value is: " + e));
 
-    @Test
-    void infiniteSequenceTest() {
-        final var finiteFlux = Flux.interval(Duration.ofMillis(100))
-                .take(3)
-                .log();
+    Thread.sleep(3000); // Keep application still running for 3 secs
 
-        StepVerifier.create(finiteFlux)
-                .expectSubscription()
-                .expectNext(0L, 1L, 2L)
-                .verifyComplete();
-    }
+    assertTrue(true);
+  }
 
-    @Test
-    void infiniteSequenceMap() {
-        final var finiteFlux = Flux.interval(Duration.ofMillis(100))
-                .map(Long::intValue)
-                .take(3)
-                .log();
+  @Test
+  void infiniteSequenceTest() {
+    final var finiteFlux = Flux.interval(Duration.ofMillis(100))
+        .take(3)
+        .log();
 
-        StepVerifier.create(finiteFlux)
-                .expectSubscription()
-                .expectNext(0, 1, 2)
-                .verifyComplete();
-    }
+    StepVerifier.create(finiteFlux)
+        .expectSubscription()
+        .expectNext(0L, 1L, 2L)
+        .verifyComplete();
+  }
 
-    @Test
-    void infiniteSequenceMap_withDelay() {
-        final var finiteFlux = Flux.interval(Duration.ofMillis(100))
-                .delayElements(Duration.ofSeconds(1))
-                .map(Long::intValue)
-                .take(3)
-                .log();
+  @Test
+  void infiniteSequenceMap() {
+    final var finiteFlux = Flux.interval(Duration.ofMillis(100))
+        .map(Long::intValue)
+        .take(3)
+        .log();
 
-        StepVerifier.create(finiteFlux)
-                .expectSubscription()
-                .expectNext(0, 1, 2)
-                .verifyComplete();
-    }
+    StepVerifier.create(finiteFlux)
+        .expectSubscription()
+        .expectNext(0, 1, 2)
+        .verifyComplete();
+  }
+
+  @Test
+  void infiniteSequenceMap_withDelay() {
+    final var finiteFlux = Flux.interval(Duration.ofMillis(100))
+        .delayElements(Duration.ofSeconds(1))
+        .map(Long::intValue)
+        .take(3)
+        .log();
+
+    StepVerifier.create(finiteFlux)
+        .expectSubscription()
+        .expectNext(0, 1, 2)
+        .verifyComplete();
+  }
 
 }
