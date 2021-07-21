@@ -9,7 +9,7 @@ import java.time.Duration;
 
 @RestController
 public class FluxAndMonoController {
-  @GetMapping("/flux")
+  @GetMapping("/flux") // Blocking end-point, because produces blocking json
   public Flux<Integer> getFlux() {
     return Flux.just(1, 2, 3, 4)
         .delayElements(Duration.ofSeconds(1))
