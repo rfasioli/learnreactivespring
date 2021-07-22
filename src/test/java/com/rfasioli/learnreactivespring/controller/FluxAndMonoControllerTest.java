@@ -122,4 +122,19 @@ class FluxAndMonoControllerTest {
         .expectNext(1, 2, 3, 4)
         .verifyComplete();
   }
+
+  @Test
+  void getFluxInfinityStream() {
+    final var longStreamFlux = webTestClient.get().uri("/fluxstreaminfinity")
+        .accept(MediaType.APPLICATION_NDJSON)
+        .exchange()
+        .expectStatus().isOk()
+        .returnResult(Long.class)
+        .getResponseBody();
+
+    StepVerifier.create(longStreamFlux)
+        .expectNext(0L, 1L, 2L)
+        .thenCancel()
+        .verify();
+  }
 }
